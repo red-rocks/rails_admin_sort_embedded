@@ -1,7 +1,7 @@
 module RailsAdmin
   module Config
     class Model
-      register_instance_option :nested_set do
+      register_instance_option :sort_embedded do
         nil
       end
     end

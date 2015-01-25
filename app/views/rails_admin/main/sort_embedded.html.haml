@@ -1,0 +1,15 @@
+= stylesheet_link_tag 'rails_admin/rails_admin_sort_embedded'
+= javascript_include_tag 'rails_admin/rails_admin_sort_embedded'
+
+.controls
+  %ul.nav.nav-tabs
+    - sort_embedded_fields.each do |f|
+      %li
+        = link_to f, "#sort_embedded_#{f}", title: f, "data-toggle" => "tab"
+
+.tab-content
+  - sort_embedded_fields.each do |f|
+    .tab-pane{id: "sort_embedded_#{f}"}
+      .row-fluid
+        .span12#rails_admin_nestable
+          = rails_admin_sort_embedded @object.send(f).to_a, {embedded_field: f}

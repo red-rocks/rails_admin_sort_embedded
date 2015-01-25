@@ -29,26 +29,35 @@ js_tree_toggle = (e)->
       return
 
 init = ->
-  $('.rails_admin_nested_set').each ->
+  $('.rails_admin_sort_embedded').each ->
     $t = $(this)
     tree_config = $t.data('config')
     $t.nestedSortable
       handle: '.dd-handle',
       items: ".dd-item"
-      maxLevels: tree_config["max_depth"]
+      maxLevels: 1 #tree_config["max_depth"]
       placeholder: "dd-placeholder"
       tolerance: 'pointer',
       toleranceElement: '> div',
+
       update: (event, ui) ->
+
+        ids_array = []
+        ui.item.closest("ol").find("li").each ->
+          ids_array.pop $(this).data("id")
+
         $.ajax
           type: "POST"
           dataType: "html"
           url: tree_config["update_url"]
           data:
-            id: ui.item.data("id")
-            parent_id: ui.item.parent().parent().data("id")
-            prev_id: ui.item.prev().data("id")
-            next_id: ui.item.next().data("id")
+            #item_id: ui.item.data("id")
+            embedded_model: tree_config["embedded_model"]
+            embedded_field: tree_config["embedded_field"]
+            #parent_id: ui.item.parent().parent().data("id")
+            #prev_id: ui.item.prev().data("id")
+            #next_id: ui.item.next().data("id")
+            ids_array: ids_array.join(" ")
 
           error: (xhr, status, error) ->
             show_flash('Nested Set: fatal error')
@@ -56,7 +65,7 @@ init = ->
           success: (data) ->
             show_flash(data)
 
-$(document).off('pjax:end.rails_admin_nested_set').on('pjax:end.rails_admin_nested_set', init)
-$(document).off('ready.rails_admin_nested_set').on('ready.rails_admin_nested_set', init)
+$(document).off('pjax:end.rails_admin_sort_embedded').on('pjax:end.rails_admin_sort_embedded', init)
+$(document).off('ready.rails_admin_sort_embedded').on('ready.rails_admin_sort_embedded', init)
 $(document).on('click', '.js-tree-toggle', js_tree_toggle)
 

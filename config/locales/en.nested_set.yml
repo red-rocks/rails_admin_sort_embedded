@@ -1,9 +1,9 @@
 en:
   admin:
     actions:
-      nested_set:
-        menu: "Sorting"
-        breadcrumb: "Sorting"
+      sort_embedded:
+        menu: "Sorting for embedded"
+        breadcrumb: "Sorting for embedded"
         error: "Error"
         success: "Success"
-        title: "Sorting"
+        title: "Sorting for embedded"

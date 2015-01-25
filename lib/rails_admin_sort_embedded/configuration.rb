@@ -1,4 +1,4 @@
-module RailsAdminNestedSet
+module RailsAdminSortEmbedded
   class Configuration
     def initialize(abstract_model)
       @abstract_model = abstract_model
@@ -6,8 +6,7 @@ module RailsAdminNestedSet
 
     def options
       @options ||= {
-          max_depth: 3,
-          toggle_fields: [:enabled],
+          fields: [],
           thumbnail_fields: [:image, :cover],
           thumbnail_size: :thumb,
           thumbnail_gem: :paperclip,
@@ -16,7 +15,7 @@ module RailsAdminNestedSet
 
     protected
     def config
-      ::RailsAdmin::Config.model(@abstract_model.model).nested_set || {}
+      ::RailsAdmin::Config.model(@abstract_model.model).sort_embedded || {}
     end
   end
 end

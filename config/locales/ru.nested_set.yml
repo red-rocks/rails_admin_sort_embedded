@@ -1,9 +1,9 @@
 ru:
   admin:
     actions:
-      nested_set:
-        menu: "Сортировка"
-        breadcrumb: "Сортировка"
-        error: "Ошибка"
-        success: "Успешно"
-        title: "Сортировка"
+      sort_embedded:
+        menu:       "Embed-сортировка"
+        breadcrumb: "Embed-сортировка"
+        error:      "Ошибка"
+        success:    "Успешно"
+        title:      "Embed-сортировка"

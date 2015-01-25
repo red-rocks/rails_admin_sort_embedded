@@ -1,7 +1,7 @@
 es:
   admin:
     actions:
-      nested_set:
+      sort_embedded:
         menu: "Ordenar"
         breadcrumb: "Ordenar"
         error: "Error"
