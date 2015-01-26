@@ -48,13 +48,19 @@ module RailsAdmin
                   main_obj = @object
                   embedded = main_obj.send(embedded_field)
                   ids.each_with_index do |id, i|
-                    obj = embedded.find(id)
-                    obj.order = obj.save
-                    obj.save
+                    embedded.find(id).update(order: i)
                   end
 
                   message = "<strong>#{I18n.t('admin.actions.sort_embedded.success')}!</strong>"
                 rescue Exception => e
+
+
+                  main_obj = @object
+                  embedded = main_obj.send(embedded_field).sorted
+                  ids.each_with_index do |id, i|
+                    embedded.find(id).update(order: i)
+                  end
+
                   message = "<strong>#{I18n.t('admin.actions.sort_embedded.error')}</strong>: #{e}"
                 end
 

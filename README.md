@@ -1,38 +1,29 @@
-# RailsAdminNestedSet
+# RailsAdminSortEmbedded
 
-It looks and feels exactly like [rails_admin_nestable](https://github.com/dalpo/rails_admin_nestable) but uses jquery Nested Sortable and
-[awesome_nested_set](https://github.com/collectiveidea/awesome_nested_set) or [glebtv-mongoid_nested_set](https://github.com/glebtv/mongoid_nested_set) instead of `Nestable` and `Ancestry`.
-
-Designed and tested with [glebtv-mongoid_nested_set](https://github.com/glebtv/mongoid_nested_set) but
-should also work with awesome_nested_set (untested)
+Sort for Embedded documents in mongoid. Field order is need.
 
 Bonus features:
 
-* special case support for `enabled` column with rails_admin_toggleable
 * special case support for `cover` and `image` columns
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'rails_admin_nested_set'
+    gem 'rails_admin_sort_embedded', :github => 'ack43/rails_admin_sort_embedded'
 
 And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install rails_admin_nested_set
-
 ## Usage with rails_admin
 
-Add the nested_set action for each model or only for models you need
+Add the sort_embedded action for each model or only for models you need
 
     RailsAdmin.config do |config|
       config.actions do
         ......
-        nested_set do
+        sort_embedded do
           visible do
             %w(Page).include? bindings[:abstract_model].model_name
           end
@@ -40,13 +31,18 @@ Add the nested_set action for each model or only for models you need
       end
     end
 
-In model:
+In embedded model:
 
-    acts_as_nested_set
-    rails_admin do
-        ...
-        nested_set({
-            max_depth: 1,
+
+    field :order, type: Integer, default: 0
+    scope :sorted, -> { order_by([:order, :asc]) } #optional
+
+In parent model:
+
+    embeds_many :method_name
+    rails_admin do        ...
+        sort_embedded({
+            fields: [:method_name],
             toggle_fields: [:enabled],
             thumbnail_fields: [:image, :cover],
             thumbnail_size: :thumb,
@@ -66,12 +62,4 @@ In model:
 
 Some ideas and code for this gem are taken from:
 
-https://github.com/dalpo/rails_admin_nestable (MIT license)
-
-https://github.com/the-teacher/the_sortable_tree (MIT license)
-
-## License
-
-(c) 2013 http://rocketscience.pro
-
-MIT license
+https://github.com/rs-pro/rails_admin_nested_set

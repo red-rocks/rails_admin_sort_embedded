@@ -5,7 +5,7 @@
   %ul.nav.nav-tabs
     - sort_embedded_fields.each do |f|
       %li
-        = link_to f, "#sort_embedded_#{f}", title: f, "data-toggle" => "tab"
+        = link_to I18n.t("rails_admin.sort_embedded.#{@object.class.name.tableize}.#{f}"), "#sort_embedded_#{f}", title: f, "data-toggle" => "tab"
 
 .tab-content
   - sort_embedded_fields.each do |f|

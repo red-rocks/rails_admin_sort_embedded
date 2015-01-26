@@ -44,7 +44,7 @@ init = ->
 
         ids_array = []
         ui.item.closest("ol").find("li").each ->
-          ids_array.pop $(this).data("id")
+          ids_array.push $(this).data("id")
 
         $.ajax
           type: "POST"

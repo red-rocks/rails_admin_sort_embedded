@@ -10,17 +10,8 @@ module RailsAdminSortEmbedded
       content_tag(:ol, rails_admin_sort_embedded_builder(roots, tree), id: id, class: 'dd-list rails_admin_sort_embedded', 'data-config' => tree_config)
     end
 
-    def g_link(node, fv, on, badge, meth)
-      link_to(
-        fv.html_safe,
-        toggle_path(model_name: @abstract_model, id: node.id, method: meth, on: on.to_s),
-        class: 'js-tree-toggle label ' + badge,
-      )
-    end
 
-    def extra_fields(node)
-      "".html_safe
-    end
+    private
 
     def rails_admin_sort_embedded_builder(nodes, tree)
       nodes.map do |node|
@@ -52,13 +43,13 @@ module RailsAdminSortEmbedded
             # content += extra_fields(node)
             #
             # content += content_tag(:div, action_links(node), class: 'pull-right links')
-            
-            thumbnail_fields.each do |mth|
+
+            sort_embedded_thumbnail_fields.each do |mth|
               if node.respond_to?(mth)
-                img = if paperclip?
-                  node.send(mth).url(thumbnail_size)
-                elsif carrierwave?
-                  node.send(mth, thumbnail_size)
+                img = if sort_embedded_paperclip?
+                  node.send(mth).url(sort_embedded_thumbnail_size)
+                elsif sort_embedded_carrierwave?
+                  node.send(mth, sort_embedded_thumbnail_size)
                 else
                   nil
                 end
@@ -80,10 +71,22 @@ module RailsAdminSortEmbedded
     end
 
 
-    def sort_embedded_fields
+    def sort_embedded_g_link(node, fv, on, badge, meth)
+      link_to(
+          fv.html_safe,
+          toggle_path(model_name: @abstract_model, id: node.id, method: meth, on: on.to_s),
+          class: 'js-tree-toggle label ' + badge,
+      )
+    end
+
+    def sort_embedded_extra_fields(node)
+      "".html_safe
+    end
+
+    def sort_embedded_sort_embedded_fields
       @sort_conf.options[:fields]
     end
-    def fields
+    def sort_embedded_fields
       @sort_conf.options[:fields]
     end
 
@@ -93,20 +96,20 @@ module RailsAdminSortEmbedded
     # def toggle_fields
     #   @sort_conf.options[:toggle_fields]
     # end
-    def thumbnail_fields
+    def sort_embedded_thumbnail_fields
       @sort_conf.options[:thumbnail_fields]
     end
-    def paperclip?
+    def sort_embedded_paperclip?
       @sort_conf.options[:thumbnail_gem] == :paperclip
     end
-    def carrierwave?
+    def sort_embedded_carrierwave?
       @sort_conf.options[:thumbnail_gem] == :carrierwave
     end
-    def thumbnail_size
+    def sort_embedded_thumbnail_size
       @sort_conf.options[:thumbnail_size]
     end
 
-    def action_links(model)
+    def sort_embedded_action_links(model)
       content_tag :ul, class: 'inline actions' do
         menu_for :member, @abstract_model, model, true
       end
