@@ -1,9 +1,0 @@
-en:
-  admin:
-    actions:
-      sort_embedded:
-        menu: "Sorting for embedded"
-        breadcrumb: "Sorting for embedded"
-        error: "Error"
-        success: "Success"
-        title: "Sorting for embedded"

@@ -10,7 +10,7 @@ Bonus features:
 
 Add this line to your application's Gemfile:
 
-    gem 'rails_admin_sort_embedded', :github => 'ack43/rails_admin_sort_embedded'
+    gem 'rails_admin_sort_embedded'
 
 And then execute:
 

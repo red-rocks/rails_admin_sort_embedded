@@ -2,8 +2,8 @@ ru:
   admin:
     actions:
       sort_embedded:
-        menu:       "Embed-сортировка"
-        breadcrumb: "Embed-сортировка"
+        menu:       "Сортировка влож. элем-ов"
+        breadcrumb: "Сортировка вложенных элементов"
         error:      "Ошибка"
         success:    "Успешно"
-        title:      "Embed-сортировка"
+        title:      "Сортировка влож. элем-ов"

@@ -6,8 +6,8 @@ require 'rails_admin_sort_embedded/version'
 Gem::Specification.new do |gem|
   gem.name          = "rails_admin_sort_embedded"
   gem.version       = RailsAdminSortEmbedded::VERSION
-  gem.authors       = ["Gleb Tv", "Alexander Kiseliev"]
-  gem.email         = ["glebtv@gmail.com", "i43ack@gmail.com"]
+  gem.authors       = ["Alexander Kiseliev", "Gleb Tv"]
+  gem.email         = ["i43ack@gmail.com", "glebtv@gmail.com"]
   gem.description   = %q{Rails admin sort for embedded collections based on nested set}
   gem.summary       = %q{Interface for editing a sorted embedded collections for rails_admin}
   gem.homepage      = "https://github.com/ack43/rails_admin_sort_embedded"
