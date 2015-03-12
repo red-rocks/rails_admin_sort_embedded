@@ -1,11 +1,11 @@
 #= require rails_admin/jquery.mjs.nestedSortable
 
-show_flash = (data)->
+show_flash = (selector, data)->
   $flash = $('<div>')
     .addClass('nestable-flash alert')
     .append($('<button>').addClass('close').data('dismiss', 'alert').html('&times;'))
     .append($('<span>').addClass('body').html(data))
-  $('#rails_admin_nestable').append($flash)
+  $(selector).append($flash)
   $flash.fadeIn(200).delay(2000).fadeOut 200, -> $(this).remove()
 
 js_tree_toggle = (e)->
@@ -46,6 +46,8 @@ init = ->
         ui.item.closest("ol").find("li").each ->
           ids_array.push $(this).data("id")
 
+        selector = "#rails_admin_nestable_" + tree_config["embedded_field"] + "_" + (tree_config["embedded_model_order_field"] || "order")
+
         $.ajax
           type: "POST"
           dataType: "html"
@@ -54,16 +56,17 @@ init = ->
             #item_id: ui.item.data("id")
             embedded_model: tree_config["embedded_model"]
             embedded_field: tree_config["embedded_field"]
+            embedded_model_order_field: tree_config["embedded_model_order_field"]
             #parent_id: ui.item.parent().parent().data("id")
             #prev_id: ui.item.prev().data("id")
             #next_id: ui.item.next().data("id")
             ids_array: ids_array.join(" ")
 
           error: (xhr, status, error) ->
-            show_flash('Nested Set: fatal error')
+            show_flash(selector, 'Nested Set: fatal error')
 
           success: (data) ->
-            show_flash(data)
+            show_flash(selector, data)
 
 $(document).off('pjax:end.rails_admin_sort_embedded').on('pjax:end.rails_admin_sort_embedded', init)
 $(document).off('ready.rails_admin_sort_embedded').on('ready.rails_admin_sort_embedded', init)

@@ -37,18 +37,51 @@ In embedded model:
     field :order, type: Integer, default: 0
     scope :sorted, -> { order_by([:order, :asc]) } #optional
 
+or use https://github.com/ack43/rocket_cms and:
+
+    # generate 'order' field, 'sort' as alias and scopes 'ordered' and 'sorted'
+    include SortField
+    sort_field
+
+    or
+
+    # generate fields and scopes with prefix 'another_': 'another_order' field, 'another_sort' as alias and scopes 'another_ordered' and 'another_sorted'
+    include SortField
+    sort_field :another
+
 In parent model:
 
     embeds_many :method_name
     rails_admin do        ...
         sort_embedded({
-            fields: [:method_name],
+            fields: [{model: [:order_field_1, :order_scope_1]}, {model: [:order_field_2, :order_scope_2]}...],
             toggle_fields: [:enabled],
             thumbnail_fields: [:image, :cover],
             thumbnail_size: :thumb,
             thumbnail_gem: :paperclip, # or :carrierwave
         })
     end
+
+
+You can not use '[:order_field_1, :order_scope_1]' and just use [:order_field_1]. Scope_name will be :order_field_1 as string + "ed"
+Default field is 'order', default scope is 'ordered';
+
+I18n:
+
+    ru:
+      rails_admin:
+        sort_embedded:
+          my_news:
+            my_news_images: Фотогалерея
+
+    # or with specified fields
+    ru:
+      rails_admin:
+        sort_embedded:
+          my_news:
+            my_news_images:
+              order: Фотогалерея
+              another_order: Фотогалерея(alt)
 
 ## Contributing
 

@@ -1,11 +1,12 @@
 module RailsAdminSortEmbedded
   module Helper
     def rails_admin_sort_embedded(tree, opts= {})
-      tree = tree.to_a.sort_by { |m| m.order }
+      tree = tree.to_a.sort_by { |m| m.send(opts[:embedded_model_order_field] || "order") }
       roots = tree#.select{|elem| elem.parent_id.nil?}
       id = "ns_#{rand(100_000_000..999_999_999)}"
       tree_config = {update_url: sort_embedded_path(model_name: @abstract_model),
                      embedded_field: opts[:embedded_field],
+                     embedded_model_order_field: opts[:embedded_model_order_field],
                      embedded_model: @abstract_model.model.new.send(opts[:embedded_field]).new.class.to_s}.to_json
       content_tag(:ol, rails_admin_sort_embedded_builder(roots, tree), id: id, class: 'dd-list rails_admin_sort_embedded', 'data-config' => tree_config)
     end

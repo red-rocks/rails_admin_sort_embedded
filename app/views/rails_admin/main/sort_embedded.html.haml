@@ -5,11 +5,48 @@
   %ul.nav.nav-tabs
     - sort_embedded_fields.each do |f|
       %li
-        = link_to I18n.t("rails_admin.sort_embedded.#{@object.class.name.tableize}.#{f}"), "#sort_embedded_#{f}", title: f, "data-toggle" => "tab"
+        :ruby
+          if f.is_a?(Hash)
+            embedded_field              = f.keys.first
+            embedded_model_order_field  = f.values.first
+            embedded_model_order_field  = embedded_model_order_field.last if embedded_model_order_field.is_a?(Array)
+
+            i18n_path         = "rails_admin.sort_embedded.#{@object.class.name.tableize}.#{embedded_field}.#{embedded_model_order_field}"
+            i18n_path_default = "rails_admin.sort_embedded.#{@object.class.name.tableize}.#{embedded_field}"
+
+            link = "#sort_embedded_#{embedded_field}_#{embedded_model_order_field}"
+            title = I18n.t(i18n_path, default: I18n.t(i18n_path_default))
+
+          else
+            i18n_path         = "rails_admin.sort_embedded.#{@object.class.name.tableize}.#{f}.order"
+            i18n_path_default = "rails_admin.sort_embedded.#{@object.class.name.tableize}.#{f}"
+            link = "#sort_embedded_#{f}"
+            title = I18n.t(i18n_path, default: I18n.t(i18n_path_default))
+          end
+
+        = link_to I18n.t(i18n_path, default: I18n.t(i18n_path_default)), link, title: title, "data-toggle" => "tab"
 
 .tab-content
   - sort_embedded_fields.each do |f|
-    .tab-pane{id: "sort_embedded_#{f}"}
-      .row-fluid
-        .span12#rails_admin_nestable
-          = rails_admin_sort_embedded @object.send(f).to_a, {embedded_field: f}
+    - if f.is_a?(Hash)
+      - embedded_field              = f.keys.first
+      - embedded_model_order_field  = f.values.first
+      - if embedded_model_order_field.is_a?(Array)
+        - if embedded_model_order_field.size > 1
+          - embedded_model_ordered_scope  = embedded_model_order_field[1]
+        - else
+          - embedded_model_ordered_scope  = "#{embedded_model_order_field[0]}ed"
+        - embedded_model_order_field    = embedded_model_order_field[0]
+      - else
+        - embedded_model_ordered_scope  = "#{embedded_model_order_field}ed"
+
+      .tab-pane{id: "sort_embedded_#{embedded_field}_#{embedded_model_order_field}"}
+        .row-fluid
+          .span12.rails_admin_nestable{id: "rails_admin_nestable_#{embedded_field}_#{embedded_model_order_field}"}
+            = rails_admin_sort_embedded @object.send(embedded_field).send(embedded_model_ordered_scope).to_a, {embedded_field: embedded_field, embedded_model_order_field: embedded_model_order_field}
+
+    - else
+      .tab-pane{id: "sort_embedded_#{f}"}
+        .row-fluid
+          .span12.rails_admin_nestable{id: "rails_admin_nestable_#{f}_order"}
+            = rails_admin_sort_embedded @object.send(f).ordered.to_a, {embedded_field: f}

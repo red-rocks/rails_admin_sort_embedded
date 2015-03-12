@@ -6,7 +6,7 @@ module RailsAdminSortEmbedded
 
     def options
       @options ||= {
-          fields: [],
+          fields: [{}],
           thumbnail_fields: [:image, :cover],
           thumbnail_size: :thumb,
           thumbnail_gem: :paperclip,

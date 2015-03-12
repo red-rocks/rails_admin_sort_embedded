@@ -36,6 +36,10 @@ module RailsAdmin
                   ids             = params[:ids_array].to_s.split(" ")
                   embedded_model  = params[:embedded_model].to_s
                   embedded_field  = params[:embedded_field].to_s
+
+                  embedded_model_order_field  = params[:embedded_model_order_field].to_s
+                  embedded_model_order_field  = "order" if embedded_model_order_field.blank?
+
                   # item_id         = params[:item_id].to_s
                   # parent_id       = params[:parent_id].to_s
                   # prev_id         = params[:prev_id].to_s
@@ -48,7 +52,7 @@ module RailsAdmin
                   main_obj = @object
                   embedded = main_obj.send(embedded_field)
                   ids.each_with_index do |id, i|
-                    embedded.find(id).update(order: i)
+                    embedded.find(id).update(embedded_model_order_field.to_sym => i)
                   end
 
                   message = "<strong>#{I18n.t('admin.actions.sort_embedded.success')}!</strong>"
@@ -58,7 +62,7 @@ module RailsAdmin
                   main_obj = @object
                   embedded = main_obj.send(embedded_field).sorted
                   ids.each_with_index do |id, i|
-                    embedded.find(id).update(order: i)
+                    embedded.find(id).update(embedded_model_order_field.to_sym => i)
                   end
 
                   message = "<strong>#{I18n.t('admin.actions.sort_embedded.error')}</strong>: #{e}"
