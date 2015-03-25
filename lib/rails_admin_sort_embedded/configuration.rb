@@ -8,6 +8,7 @@ module RailsAdminSortEmbedded
       @options ||= {
           fields: [{}],
           thumbnail_fields: [:image, :cover],
+          hint_fields: [],
           thumbnail_size: :thumb,
           thumbnail_gem: :paperclip,
       }.merge(config || {})

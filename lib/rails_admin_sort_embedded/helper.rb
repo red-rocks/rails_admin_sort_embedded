@@ -1,7 +1,7 @@
 module RailsAdminSortEmbedded
   module Helper
     def rails_admin_sort_embedded(tree, opts= {})
-      tree = tree.to_a.sort_by { |m| m.send(opts[:embedded_model_order_field] || "order") }
+      tree = tree.to_a.sort_by { |m| m.send(opts[:embedded_model_order_field] || "order").to_i }
       roots = tree#.select{|elem| elem.parent_id.nil?}
       id = "ns_#{rand(100_000_000..999_999_999)}"
       tree_config = {update_url: sort_embedded_path(model_name: @abstract_model),
@@ -57,6 +57,25 @@ module RailsAdminSortEmbedded
                 content += image_tag(img, style: "max-height: 40px; max-width: 100px;", class: 'pull-right')
               end
             end
+
+            sort_embedded_hint_fields.each do |hint|
+              if hint.is_a?(Array)
+                hint_field  = hint[0]
+                if hint.size == 2
+                  hint_args = hint[1]
+                else
+                  hint_args = hint[1..-1].to_a
+                end
+              else
+                hint_field  = hint
+                hint_args   = nil
+              end
+
+              if node.respond_to?(hint_field)
+                html_code = (hint_args ? node.send(hint_field, *hint_args) : node.send(hint_field))
+                content += content_tag(:div, html_code, class: 'pull-right')
+              end
+            end
             content
           end
 
@@ -99,6 +118,9 @@ module RailsAdminSortEmbedded
     # end
     def sort_embedded_thumbnail_fields
       @sort_conf.options[:thumbnail_fields]
+    end
+    def sort_embedded_hint_fields
+      @sort_conf.options[:hint_fields]
     end
     def sort_embedded_paperclip?
       @sort_conf.options[:thumbnail_gem] == :paperclip
