@@ -38,7 +38,9 @@ module RailsAdminSortEmbedded
             #   end
             # end
 
-            content += content_tag :span, @model_config.with(object: node).object_label
+            _title = sort_embedded_label_methods.map { |m| node.send(m) if node.respond_to?(m) }.compact.first
+            _title = node.id if _title.blank?
+            content += content_tag :span, _title
 
             # content += link_to @model_config.with(object: node).object_label, edit_path(@abstract_model, node.id)
             # content += extra_fields(node)
@@ -108,6 +110,10 @@ module RailsAdminSortEmbedded
     end
     def sort_embedded_fields
       @sort_conf.options[:fields]
+    end
+
+    def sort_embedded_label_methods
+      @sort_conf.options[:label_methods]
     end
 
     # def max_depth

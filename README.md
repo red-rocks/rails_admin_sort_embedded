@@ -55,6 +55,7 @@ In parent model:
     rails_admin do        ...
         sort_embedded({
             fields: [{model: [:order_field_1, :order_scope_1]}, {model: [:order_field_2, :order_scope_2]}...],
+            label_methods: [:name, :label],
             toggle_fields: [:enabled],
             thumbnail_fields: [:image, :cover],
             thumbnail_size: :thumb,

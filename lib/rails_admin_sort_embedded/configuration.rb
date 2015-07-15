@@ -8,6 +8,7 @@ module RailsAdminSortEmbedded
       @options ||= {
           fields: [{}],
           thumbnail_fields: [:image, :cover],
+          label_methods: [:name, :label],
           hint_fields: [],
           thumbnail_size: :thumb,
           thumbnail_gem: :paperclip,

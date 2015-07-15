@@ -2,7 +2,7 @@
 
 show_flash = (selector, data)->
   $flash = $('<div>')
-    .addClass('nestable-flash alert')
+    .addClass('sort-embedded-flash alert')
     .append($('<button>').addClass('close').data('dismiss', 'alert').html('&times;'))
     .append($('<span>').addClass('body').html(data))
   $(selector).append($flash)
