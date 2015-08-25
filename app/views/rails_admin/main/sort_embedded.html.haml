@@ -42,11 +42,11 @@
 
       .tab-pane{id: "sort_embedded_#{embedded_field}_#{embedded_model_order_field}"}
         .row-fluid
-          .span12.rails_admin_sort_embedded{id: "rails_admin_sort_embedded_#{embedded_field}_#{embedded_model_order_field}"}
+          .span12.rails_admin_sort_embedded_block{id: "rails_admin_sort_embedded_#{embedded_field}_#{embedded_model_order_field}"}
             = rails_admin_sort_embedded @object.send(embedded_field).send(embedded_model_ordered_scope).to_a, {embedded_field: embedded_field, embedded_model_order_field: embedded_model_order_field}
 
     - else
       .tab-pane{id: "sort_embedded_#{f}"}
         .row-fluid
-          .span12.rails_admin_sort_embedded{id: "rails_admin_sort_embedded_#{f}_order"}
+          .span12.rails_admin_sort_embedded_block{id: "rails_admin_sort_embedded_#{f}_order"}
             = rails_admin_sort_embedded @object.send(f).ordered.to_a, {embedded_field: f}
