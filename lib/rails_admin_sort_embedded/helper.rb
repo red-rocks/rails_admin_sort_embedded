@@ -38,7 +38,7 @@ module RailsAdminSortEmbedded
             #   end
             # end
 
-            _title = sort_embedded_label_methods.map { |m| node.send(m) if node.respond_to?(m) }.compact.first
+            _title = sort_embedded_label_methods.map { |m| node.send(m) if node.respond_to?(m) }.reject(&:blank?).first
             _title = node.id if _title.blank?
             content += content_tag :span, _title
 
