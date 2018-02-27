@@ -46,7 +46,7 @@ module RailsAdmin
                   # next_id         = params[:next_id].to_s
 
                   if ids.empty?
-                    return render text: 'Nested set UI error: node ids not defined', status: 500
+                    return render plain: 'Nested set UI error: node ids not defined', status: 500
                   end
 
                   main_obj = @object
@@ -68,7 +68,7 @@ module RailsAdmin
                   message = "<strong>#{I18n.t('admin.actions.sort_embedded.error')}</strong>: #{e}"
                 end
 
-                render text: message
+                render plain: message
               end
             end
           end
